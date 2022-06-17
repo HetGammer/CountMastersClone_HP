@@ -30,7 +30,8 @@ namespace JetSystems
         {
             GameAnalytics.Initialize();
             level = PlayerPrefs.GetInt("LEVEL");
-            GameAnalytics.NewBusinessEventGooglePlay("Level:", level, "", "", "", "", "");
+
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "Level starts", level);
         }
 
         // Start is called before the first frame update
@@ -68,13 +69,17 @@ namespace JetSystems
             Debug.Log("Before Level++ = " + level);
             level++;
             Debug.Log("After Level++ = " + level);
-
-            if(level == levelSequences.Length)
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "Level completes", level);
+            if (level == levelSequences.Length)
             {
                 level = 0;
             }
 
             PlayerPrefs.SetInt("LEVEL", level);
+
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Level completes", level);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Level starts", level);
+
 
             Debug.Log("New Saved Level = " + PlayerPrefsManager.GetLevel());
 

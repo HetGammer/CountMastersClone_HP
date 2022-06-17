@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -36,6 +37,9 @@ public class BonusRunnersParent : MonoBehaviour
     //Set the pyramid position for runner objects
     private void StoreRunnersData()
     {
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "pyramid");
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "pyramid");
+
         float floatLineCount = (-1 + Mathf.Sqrt(1 + 8 * transform.childCount)) / 2;
         int lineCount = Mathf.FloorToInt(floatLineCount);
         int soldiersInFirstLayer = Mathf.CeilToInt(floatLineCount);
@@ -142,7 +146,8 @@ public class BonusRunnersParent : MonoBehaviour
         JetSystems.UIManager.setLevelCompleteDelegate?.Invoke();
 
         Debug.Log("Bonus : " + endStairsBonus.GetBonus(currentStairBonusIndex - 2));
-
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "Collected_BonusLine");
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Collected_BonusLine", endStairsBonus.GetBonus(currentStairBonusIndex - 2).ToString());
         int rewardCoins = (int)(endStairsBonus.GetBonus(currentStairBonusIndex - 2) * 50);
         levelCompleteParticleControl.PlayControlledParticles(JetSystems.Utils.GetScreenCenter(), levelCompleteCoinImage, rewardCoins);
     }

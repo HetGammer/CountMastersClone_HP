@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using JetSystems;
 using UnityEngine.Events;
+using GameAnalyticsSDK;
 
 public class Runner : MonoBehaviour
 {
@@ -77,11 +78,15 @@ public class Runner : MonoBehaviour
 
     public void StartRunning()
     {
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "StartRunning");
+
         skinManager.StartRunning();
     }
 
     public void StopRunning()
     {
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "StartRunning");
+
         skinManager.StopRunning();
     }
 
